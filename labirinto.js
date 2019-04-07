@@ -12,16 +12,17 @@ var telaLabirinto = (function () { //eslint-disable-line
         return Math.floor(Math.random() * casaMaxima + 1).toString().padStart(2, '0');
     };
 
-    /*
-     * Vincula os eventos nos elementos da tela.
-     */
-    var _vincularEventos = function () {
-        $('#btn-iniciar').click(telaBusca.buscarCaminhoProximo);
-        $('#btn-InicialFinal').click(telaLabirinto.colocarPontoInicialFinal);
-        $('#btn-limpar').click(telaLabirinto.limparTudo);
-        $('#campo-tabela .o-quebra-coluna div[id]').click(function () {
-            telaLabirinto.clicarQuadrado(this);
-        });
+    var _verificaSeTemInicioFim = function () {
+        for (var i = 0; i < 10; i++) {
+            for (var j = 0; j < 10; j++) {
+                if($('#' + i+''+j).hasClass('o-azul') ||
+                   $('#' + i+''+j).hasClass('o-preta')){
+                    return true;
+                }
+            }
+        }
+        alert('Coloque os pontos inicial e final primeiro!');
+        return false;
     };
 
     var _limpacores = function (valor) {
@@ -29,6 +30,23 @@ var telaLabirinto = (function () { //eslint-disable-line
         $('#' + valor.id).removeClass('o-preta');
         $('#' + valor.id).removeClass('o-azul');
         $('#' + valor.id).removeClass('o-vermelha');
+        $('#' + valor.id).removeClass('o-amarela');
+    };
+
+    /*
+     * Vincula os eventos nos elementos da tela.
+     */
+    var _vincularEventos = function () {
+        $('#btn-iniciar').click(function(){
+            if(_verificaSeTemInicioFim()){
+                telaBusca.buscarCaminhoProximo();
+            }
+        });
+        $('#btn-InicialFinal').click(telaLabirinto.colocarPontoInicialFinal);
+        $('#btn-limpar').click(telaLabirinto.limparTudo);
+        $('#campo-tabela .o-quebra-coluna div[id]').click(function () {
+            telaLabirinto.clicarQuadrado(this);
+        });
     };
 
     /**
@@ -71,6 +89,7 @@ var telaLabirinto = (function () { //eslint-disable-line
         for (var i = 0; i < 10; i++) {
             for (var j = 0; j < 10; j++) {
                 valor.id = i+''+j;
+                $('#' + valor.id).removeClass('o-amarela');
                 if($('#' + valor.id).hasClass('o-azul') ||
                    $('#' + valor.id).hasClass('o-preta')){
                     _limpacores(valor);

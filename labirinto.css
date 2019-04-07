@@ -3,6 +3,7 @@
     height: 40px;
     background-color: gray;
     margin: 5px;
+    box-shadow: 1px 3px 4px 0px;
 }
 
 .o-quebra-coluna {
@@ -22,17 +23,25 @@
 }
 
 .o-vermelha {
+    -webkit-transition: background-color ease-in 0.2s;
+    transition: background-color ease-in 0.2s;
     background-color: red;
 }
 
 .o-azul {
+    -webkit-transition: background-color ease-in 0.2s;
+    transition: background-color ease-in 0.2s;
     background-color: blue;
 }
 
 .o-preta {
+    -webkit-transition: background-color ease-in 0.2s;
+    transition: background-color ease-in 0.2s;
     background-color: black;
 }
 
 .o-amarela {
+    -webkit-transition: background-color ease-in 0.2s;
+    transition: background-color ease-in 0.2s;
     background-color: yellowgreen;
 }
