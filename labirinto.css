@@ -1,0 +1,38 @@
+.s-grade-labirinto {
+    width: 40px;
+    height: 40px;
+    background-color: gray;
+    margin: 5px;
+}
+
+.o-quebra-coluna {
+    display: flex;
+}
+
+.o-tela-principal {
+    padding: 20px;
+}
+
+.o-p20 {
+    padding: 20px;
+}
+
+.o-w100 {
+    width: 100%;
+}
+
+.o-vermelha {
+    background-color: red;
+}
+
+.o-azul {
+    background-color: blue;
+}
+
+.o-preta {
+    background-color: black;
+}
+
+.o-amarela {
+    background-color: yellowgreen;
+}

@@ -1,0 +1,14 @@
+{
+    "extends": [
+        "stylelint-config-recommended",
+        "./node_modules/prettier-stylelint/config.js"
+    ],
+    "rules": {
+        "indentation": 4,
+        "declaration-block-no-redundant-longhand-properties": true,
+        "declaration-block-trailing-semicolon": "always",
+        "max-empty-lines": 1,
+        "max-nesting-depth": 2,
+        "shorthand-property-no-redundant-values": true
+    }
+}
