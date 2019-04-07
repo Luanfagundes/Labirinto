@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Labirinto</title>
+    <link rel="stylesheet" type="text/css" href="labirinto.css">
+</head>
+
+<body onload="telaLabirinto.carregar()" class="o-tela-principal">
+
+    <!-- Main -->
+    <div class="o-quebra-coluna">
+
+        <div class="o-p20">
+            <!-- Tabela -->
+            <div id="campo-tabela">
+            </div>
+        </div>
+
+        <div class="o-p20">
+            <!-- Mensagem -->
+            <div>
+                <p><b>Clique nos quadrados para colocar impedimento nas rotas</b></p>
+                <p style="color: red">Vermelha: Impedimentos para rota.</p>
+                <p style="color: gray">Cinza: Percuso que pode ser percorrido.</p>
+                <p style="color: blue">Azul: Inicio da rota.</p>
+                <p style="color: black">Preta: Fim da rota.</p>
+                
+            </div>
+
+            <div class="o-p20">
+                <button id="btn-InicialFinal" type="button" class="o-w100">Ponto Inicial e Final</button>
+            </div>
+
+            <div class="o-p20">
+                <button id="btn-iniciar" type="button" class="o-w100">Percorrer</button>
+            </div>
+
+            <div class="o-p20">
+                    <button id="btn-limpar" type="button" class="o-w100">Limpar Tudo</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scipts: Jquery e o JS para aplicação -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous">
+    </script>
+    <script type="text/javascript" src="labirinto.js"></script>
+    <script type="text/javascript" src="busca.js"></script>
+</body>
+
+</html>
