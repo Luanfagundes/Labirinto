@@ -46,16 +46,84 @@ var telaBusca = (function () { //eslint-disable-line
         }
     };
 
+    var _contornaBarreiraLinha = function (proximoCaminho) {
+
+        if($('#' + proximoCaminho).hasClass('o-vermelha')){
+            if(proximidade.cima){
+                //TODO: verificar se tem vermelho;
+                return (Number(inicio) - 10).toString().padStart(2, '0');
+            }else if(proximidade.baixo){
+                //TODO: verificar se tem vermelho;
+                return (Number(inicio) + 10).toString().padStart(2, '0');
+            }else if(proximidade.mesmaLinha){
+                if((Number(inicio) - 10).toString().padStart(2, '0') < '00'){
+                    //TODO: verificar se tem vermelho;
+                    return (Number(inicio) + 10).toString().padStart(2, '0');
+                }
+                else if((Number(inicio) + 10).toString().padStart(2, '0') > '99'){
+                    //TODO: verificar se tem vermelho;
+                    return (Number(inicio) - 10).toString().padStart(2, '0');
+                }
+                //TODO: verificar se tem vermelho;
+                if($('#' + (Number(inicio) - 10).toString().padStart(2, '0')).hasClass('o-amarela')){
+                    return (Number(inicio) + 10).toString().padStart(2, '0');
+                }
+                return (Number(inicio) - 10).toString().padStart(2, '0');
+            }
+        }
+        return proximoCaminho;
+    };
+
+    var _contornaBarreiraColuna = function (proximoCaminho) {
+        if($('#' + proximoCaminho).hasClass('o-vermelha')){
+            if(proximidade.esquerda){
+                //TODO: verificar se tem vermelho;
+                return (Number(inicio) - 1).toString().padStart(2, '0');
+            }else if(proximidade.direita){
+                //TODO: verificar se tem vermelho;
+                return (Number(inicio) + 1).toString().padStart(2, '0');
+            }else if(proximidade.mesmaColuna){
+                //TODO: verificar se tem vermelho;
+                if((Number(inicio) - 1).toString().padStart(2, '0') < '00'){
+                    return (Number(inicio) + 1).toString().padStart(2, '0');
+                }
+                else if((Number(inicio) + 1).toString().padStart(2, '0') > '99'){
+                    return (Number(inicio) - 1).toString().padStart(2, '0');
+                }
+                //TODO: verificar se tem vermelho;
+                if($('#' + (Number(inicio) - 1).toString().padStart(2, '0')).hasClass('o-amarela')){
+                    return (Number(inicio) + 1).toString().padStart(2, '0');
+                }
+                return (Number(inicio) - 1).toString().padStart(2, '0');
+            }
+        }
+        return proximoCaminho;
+    };
+
     var _percorreLinha = function () {
         if(proximidade.direita){
-            inicio++;
-            inicio = inicio.toString().padStart(2, '0');
+            const proximoCaminho = (Number(inicio) + 1).toString().padStart(2, '0');
+            inicio = _contornaBarreiraLinha(proximoCaminho);
             $('#' + inicio).addClass('o-amarela');
         }
 
         if(proximidade.esquerda){
-            inicio--;
-            inicio = inicio.toString().padStart(2, '0');
+            const proximoCaminho = (Number(inicio) - 1).toString().padStart(2, '0');
+            inicio = _contornaBarreiraLinha(proximoCaminho);
+            $('#' + inicio).addClass('o-amarela');
+        }
+    };
+
+    var _percorreColuna = function () {
+        if(proximidade.baixo){
+            const proximoCaminho = (Number(inicio) + 10).toString().padStart(2, '0');
+            inicio = _contornaBarreiraColuna(proximoCaminho);
+            $('#' + inicio).addClass('o-amarela');
+        }
+
+        if(proximidade.cima){
+            const proximoCaminho = (Number(inicio) - 10).toString().padStart(2, '0');
+            inicio = _contornaBarreiraColuna(proximoCaminho);
             $('#' + inicio).addClass('o-amarela');
         }
     };
@@ -90,6 +158,9 @@ var telaBusca = (function () { //eslint-disable-line
             telaBusca.verificaCaminhoProximo();
         }else if($('#'+inicio).hasClass('o-preta')){
             $('#'+inicio).removeClass('o-amarela');
+        }else{
+            _percorreColuna();
+            telaBusca.verificaCaminhoProximo();
         }
     };
 
