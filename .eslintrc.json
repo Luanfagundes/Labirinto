@@ -122,7 +122,7 @@
             }
         ],
         "max-statements": [
-            "warn", 20,  {
+            "warn", 40,  {
                 "ignoreTopLevelFunctions": true 
             }
         ]
