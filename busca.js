@@ -17,10 +17,28 @@ var telaBusca = (function () { //eslint-disable-line
         baixo: false
     };
 
-    var _removeVemelhos = function () {
-        while(inicioImovel.length === 0){
-            $('#'+inicioImovel.pop).removeClass('o-vermelha');
+    var _removeVermelhas = function () {
+        for (var index = 0; index < inicioImovel.length; index++) {
+            $('#'+inicioImovel[index]).removeClass('o-vermelha');     
         }
+    };
+
+    var _voltaCaminhoAnterior = function () {
+        var valor;
+        if($('#' + (Number(inicio) - 10).toString().padStart(2, '0')).hasClass('o-amarela')){
+            valor = -10;
+        }
+        if($('#' + (Number(inicio) + 10).toString().padStart(2, '0')).hasClass('o-amarela')){
+            valor = 10;
+        }
+        if($('#' + (Number(inicio) - 1).toString().padStart(2, '0')).hasClass('o-amarela')){
+            valor = -1;
+        }
+        if($('#' + (Number(inicio) + 1).toString().padStart(2, '0')).hasClass('o-amarela')){
+            valor = 1;
+        }
+        $('#' + (Number(inicio)).toString().padStart(2, '0')).removeClass('o-amarela');
+        return (Number(inicio) + valor).toString().padStart(2, '0');
     };
 
     var _verificaLinha = function () {
@@ -59,29 +77,39 @@ var telaBusca = (function () { //eslint-disable-line
     var _contornaBarreiraLinha = function (proximoCaminho) {
         if($('#' + proximoCaminho).hasClass('o-vermelha')){
             if(proximidade.cima){
-                if($('#' + (Number(inicio) - 10).toString().padStart(2, '0')).hasClass('o-vermelha') ||
-                    (Number(inicio) - 10).toString().padStart(2, '0') >= valorMin){
-                    
-                    if($('#' + (Number(inicio) + 10).toString().padStart(2, '0')).hasClass('o-vermelha') ||
-                        (Number(inicio) + 10).toString().padStart(2, '0') <= valorMax){
-                        
-                        if($('#' + (Number(inicio) + 1).toString().padStart(2, '0')).hasClass('o-vermelha') ||
-                            (Number(inicio) + 1).toString().padStart(2, '0') >= valorMax){
-
-                            if($('#' + (Number(inicio) - 1).toString().padStart(2, '0')).hasClass('o-vermelha') ||
-                                (Number(inicio) + 1).toString().padStart(2, '0') <= valorMin){
-                                
-                                alert('Erro! caminho inexistente');
-                                _removeVemelhos();
-                                return 0;
+                var teste = [true, true, true, true];
+                for (var j = 0; j < 4; j++) {
+                    if($('#' + (Number(inicio) - 10).toString().padStart(2, '0')).hasClass('o-vermelha') && teste[0]){
+                        if($('#' + (Number(inicio) + 10).toString().padStart(2, '0')).hasClass('o-vermelha') && teste[1]){
+                            if($('#' + (Number(inicio) + 1).toString().padStart(2, '0')).hasClass('o-vermelha') && teste[2]){
+                                if($('#' + (Number(inicio) - 1).toString().padStart(2, '0')).hasClass('o-vermelha') && teste[3]){
+                                    alert('deu ruim');  
+                                    return _voltaCaminhoAnterior();
+                                }
+                                if((Number(inicio) - 1).toString().padStart(2, '0') >= valorMin){
+                                    return (Number(inicio) - 1).toString().padStart(2, '0');
+                                }
+                                teste[3] = false;
+                                continue;
                             }
-                            return (Number(inicio) - 1).toString().padStart(2, '0');
+                            if((Number(inicio) + 1).toString().padStart(2, '0') <= valorMax){
+                                return (Number(inicio) + 1).toString().padStart(2, '0'); 
+                            }
+                            teste[2] = false;
+                            continue;
                         }
-                        return (Number(inicio) + 1).toString().padStart(2, '0');
+                        if((Number(inicio) + 10).toString().padStart(2, '0') <= valorMax){
+                            return (Number(inicio) + 10).toString().padStart(2, '0');     
+                        }
+                        teste[1] = false;
+                        continue;
                     }
-                    return (Number(inicio) + 10).toString().padStart(2, '0');
+                    if((Number(inicio) - 10).toString().padStart(2, '0') >= valorMin){
+                        return (Number(inicio) - 10).toString().padStart(2, '0');   
+                    }
+                    teste[0] = false;
+                    continue;
                 }
-                return (Number(inicio) - 10).toString().padStart(2, '0');
             }else if(proximidade.baixo){
                 
                 if($('#' + (Number(inicio) + 10).toString().padStart(2, '0')).hasClass('o-vermelha')){
@@ -192,8 +220,8 @@ var telaBusca = (function () { //eslint-disable-line
         $('#'+inicio).addClass('o-vermelha');
         //MODO LINHA COLUNA
         if($('#'+inicio).hasClass('o-preta')){
+            _removeVermelhas();
             $('#'+inicio).removeClass('o-amarela');
-            _removeVemelhos();
         }else if (!proximidade.mesmaColuna) {
             _percorreLinha();
             telaBusca.verificaCaminhoProximo();
